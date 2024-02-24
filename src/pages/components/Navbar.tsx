@@ -1,19 +1,16 @@
 import { AppContext } from "@/ContextProvider";
+import { Button, CartQty, Container, Nav } from "@/styles/globals";
 import { useRouter } from "next/router";
 import React, { useContext } from "react";
+import {CartIcon, HomeIcon} from "@/styles/Icons";
 
 const Navbar = () => {
-
-  const {cart} = useContext(AppContext);
+  const { cart } = useContext(AppContext);
 
   const router = useRouter();
 
   const goToCart = () => {
     router.push("/cart");
-  };
-
-  const goToSuccess = () => {
-    router.push("/success");
   };
 
   const goToHome = () => {
@@ -22,20 +19,15 @@ const Navbar = () => {
 
   return (
     <>
-      <nav>
-        <ul>
-          <li>
-            <button onClick={goToCart}>Go to Cart {cart.length}</button>
-          </li>
-          <li>
-            <button onClick={goToSuccess}>Go to Success</button>
-          </li>
-          <li>
-            <button onClick={goToHome}>Go to Home</button>
-          </li>
-        </ul>
-      </nav>
-      </>
+      <Nav>
+       
+        <Button onClick={goToHome}><HomeIcon props={undefined}/></Button> 
+        <Button onClick={goToCart}>
+          <CartIcon props={undefined} />
+          <CartQty>{cart.length}</CartQty>
+        </Button>
+      </Nav>
+    </>
   );
 };
 

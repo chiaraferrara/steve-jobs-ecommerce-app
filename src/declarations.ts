@@ -1,6 +1,9 @@
 export type Cart = Array<{
   id: number;
   quantity: number;
+  thumbnail: string;
+  price: number;
+  
 }>;
 
 export interface Product {
@@ -22,6 +25,8 @@ export interface TContext {
   error: string;
   addToCart: (idProduct: Product["id"]) => void;
   removeFromCart: (idProduct: Product["id"]) => void;
+  reduceQuantity: (idProduct: Product["id"]) => void;
+  getTotalPrice: () => number;
   pay: () => void;
   done: () => void;
   getProductQuantity: (idProduct: Product["id"]) => number;

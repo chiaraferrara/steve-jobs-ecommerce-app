@@ -7,6 +7,8 @@ export const AppContext = createContext<TContext>({
   products: null,
   addToCart: () => {},
   removeFromCart: () => {},
+  reduceQuantity: () => {},
+  getTotalPrice: () => 0,
   pay: () => {},
   done: () => {},
   getProductQuantity: () => 0,
@@ -27,24 +29,46 @@ export function ContextProvider({ children }: Props) {
 
   const addToCart = (idProduct: Product["id"]) => {
     const found = cart.find((el) => el.id === idProduct);
+    const product = products?.find((el) => el.id === idProduct);
     if (!!found) {
       const newCart = cart.map((el) => {
         if (el.id !== idProduct) return el;
-        return { id: el.id, quantity: el.quantity + 1 };
+        return {
+          id: el.id,
+          quantity: el.quantity + 1,
+          thumbnail: product?.thumbnail ?? "",
+          price: product?.price ?? 0,
+        };
       });
       setCart(newCart);
     } else {
-      setCart([...cart, { id: idProduct, quantity: 1 }]);
+      setCart([
+        ...cart,
+        {
+          id: idProduct,
+          quantity: 1,
+          thumbnail: product?.thumbnail ?? "",
+          price: product?.price ?? 0,
+        },
+      ]);
     }
-
-    console.log("added to cart", cart)
   };
 
   const removeFromCart = (idProduct: Product["id"]) => {
+    const newCart = cart.filter((el) => el.id !== idProduct);
+    setCart(newCart);
+  };
+
+  const reduceQuantity = (idProduct: Product["id"]) => {
     const newCart = cart.reduce((acc, el) => {
       if (el.id === idProduct) {
         if (el.quantity > 1) {
-          acc.push({ id: el.id, quantity: el.quantity - 1 });
+          acc.push({
+            id: el.id,
+            quantity: el.quantity - 1,
+            thumbnail: el.thumbnail,
+            price: el.price,
+          });
           return acc;
         }
         return acc;
@@ -84,6 +108,12 @@ export function ContextProvider({ children }: Props) {
     return 0;
   };
 
+  const getTotalPrice = () => {
+    return cart.reduce((acc, el) => {
+      return acc + el.price * el.quantity;
+    }, 0);
+  };
+
   useEffect(() => {
     getProducts();
   }, []);
@@ -96,7 +126,9 @@ export function ContextProvider({ children }: Props) {
         products,
         addToCart,
         removeFromCart,
+        reduceQuantity,
         getProductQuantity,
+        getTotalPrice,
         pay,
         loading,
         error,

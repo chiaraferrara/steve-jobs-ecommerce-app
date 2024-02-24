@@ -8,6 +8,7 @@ export const AppContext = createContext<TContext>({
   addToCart: () => {},
   removeFromCart: () => {},
   reduceQuantity: () => {},
+  increaseQuantity: () => {},
   getTotalPrice: () => 0,
   pay: () => {},
   done: () => {},
@@ -36,6 +37,7 @@ export function ContextProvider({ children }: Props) {
         return {
           id: el.id,
           quantity: el.quantity + 1,
+          description: product?.description ?? "",
           thumbnail: product?.thumbnail ?? "",
           price: product?.price ?? 0,
         };
@@ -47,6 +49,7 @@ export function ContextProvider({ children }: Props) {
         {
           id: idProduct,
           quantity: 1,
+          description: product?.description ?? "",
           thumbnail: product?.thumbnail ?? "",
           price: product?.price ?? 0,
         },
@@ -66,6 +69,7 @@ export function ContextProvider({ children }: Props) {
           acc.push({
             id: el.id,
             quantity: el.quantity - 1,
+            description: el.description,
             thumbnail: el.thumbnail,
             price: el.price,
           });
@@ -77,6 +81,23 @@ export function ContextProvider({ children }: Props) {
         return acc;
       }
     }, [] as Cart);
+    setCart(newCart);
+  };
+
+
+  const increaseQuantity = (idProduct: Product["id"]) => {
+    const newCart = cart.map((el) => {
+      if (el.id === idProduct) {
+        return {
+          id: el.id,
+          quantity: el.quantity + 1,
+          description: el.description,
+          thumbnail: el.thumbnail,
+          price: el.price,
+        };
+      }
+      return el;
+    });
     setCart(newCart);
   };
 
@@ -127,6 +148,7 @@ export function ContextProvider({ children }: Props) {
         addToCart,
         removeFromCart,
         reduceQuantity,
+        increaseQuantity,
         getProductQuantity,
         getTotalPrice,
         pay,

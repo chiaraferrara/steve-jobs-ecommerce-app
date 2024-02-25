@@ -128,7 +128,17 @@ export function ContextProvider({ children }: Props) {
     setPaid(false);
   };
 
+  
+
   const getProductQuantity = (idProduct: Product["id"]) => {
+    const found = cart.find((el) => el.id === idProduct);
+    const product = products?.find((el) => el.id === idProduct);
+    if (found) {
+      return (product?.qty ?? 0) - found.quantity;
+    } 
+    if (!!product) {
+      return product.qty ?? 0;
+    }
     return 0;
   };
 

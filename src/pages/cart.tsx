@@ -4,6 +4,7 @@ import {
   Button,
   CartContainer,
   Container,
+  Div,
   FlexColumn,
   FlexRow,
 } from "@/styles/globals";
@@ -43,6 +44,7 @@ export default function Cart() {
   if (cart.length < 1) return ( <h1>Cart is empty</h1>)
   return (
     <>
+    <Div>
       <Container>
         <FlexColumn>
           {" "}
@@ -76,10 +78,11 @@ export default function Cart() {
           ))}
         </FlexColumn>{" "}
         <FlexColumn>
-          <span>Total : {totalPrice}</span>
+          <span>Total : {totalPrice}€</span>
           <Btn onClick={() => navigateToBuy()}>Buy</Btn>
         </FlexColumn>
       </Container>
+      </Div>
     </>
   );
 }

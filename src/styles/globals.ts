@@ -67,3 +67,14 @@ justify-content: center;
 export const FlexRow = styled.div`
 display: flex;
 flex-direction: row;`;
+
+export const Wrapper = styled.div`
+
+justify-content: center;
+align-items: center;
+width: 60%;
+margin: 0 auto;`;
+
+
+
+export const Div = styled.div` font-family: "Arial", sans-serif`;

@@ -16,7 +16,7 @@ export default function Home() {
   const { products, loading, error } = useContext(AppContext);
   const { addToCart } = useContext(AppContext);
   const { cartProducts , setCartProducts } = useContext(AppContext);
-
+  const { getProductQuantity } = useContext(AppContext);
   useEffect(() => {
     console.log(products);
     console.log(loading);
@@ -38,6 +38,9 @@ export default function Home() {
               <Typography variant="body2" color="text.secondary">
                 {product.price}€
               </Typography>
+
+              <Typography variant="body2" color="text.secondary">
+               Available: {getProductQuantity(product.id)}</Typography>
             </CardContent>
             <CardActions>
               <Button size="small" onClick={() => {

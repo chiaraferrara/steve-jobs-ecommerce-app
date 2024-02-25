@@ -23,35 +23,42 @@ export default function Home() {
     console.log(error);
   }, []);
 
-
-  {!products && !loading && !error && <h1>Loading</h1>}
   return (
     <>
       <Container>
-        {products?.map((product) => (
-          <Card key={product.id} sx={{ width:245, m: 0.5}}>
-            <CardMedia sx={{ height: 140 }} image={product.thumbnail} />
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                {product.title}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {product.price}€
-              </Typography>
-
-              <Typography variant="body2" color="text.secondary">
-               Available: {getProductQuantity(product.id)}</Typography>
-            </CardContent>
-            <CardActions>
-              <Button size="small" onClick={() => {
-                addToCart(product.id);
-                setCartProducts(cartProducts + 1);
-              }}>
-                Add to cart
-              </Button>
-            </CardActions>
-          </Card>
-        ))}
+        {products && products.length > 0 ? (
+          products.map((product) => (
+            <Card key={product.id} sx={{ width:245, m: 0.5}}>
+              <CardMedia sx={{ height: 140 }} image={product.thumbnail} />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  {product.title}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {product.price}€
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Available: {getProductQuantity(product.id)}
+                </Typography>
+              </CardContent>
+              <CardActions>
+              {getProductQuantity(product.id) >= 1 && (
+                  <Button
+                    size="small"
+                    onClick={() => {
+                      addToCart(product.id);
+                      setCartProducts(cartProducts + 1);
+                    }}
+                  >
+                    Add to cart
+                  </Button>
+                )}
+              </CardActions>
+            </Card>
+          ))
+        ) : (
+          <h1>Loading</h1>
+        )}
       </Container>
     </>
   );

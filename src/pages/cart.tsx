@@ -23,7 +23,10 @@ export default function Cart() {
   const { reduceQuantity } = useContext(AppContext);
   const {increaseQuantity} = useContext(AppContext);
   const { getTotalPrice } = useContext(AppContext);
+  const { cartProducts, setCartProducts } = useContext(AppContext);
+
   const [totalPrice, setTotalPrice] = useState<number>(0);
+
 
   const router = useRouter();
 
@@ -50,14 +53,18 @@ export default function Cart() {
             >
               <Box sx={{ display: "flex", flexDirection: "column" }}>
                 <CardContent sx={{ flex: "1 0 auto" }}>
-                  <Btn onClick={() => removeFromCart(el.id)}>
+                  <Btn onClick={() => { removeFromCart(el.id);
+                  setCartProducts(cartProducts - el.quantity)}}>
                     remove from cart
                   </Btn>
                   <Typography component="div" variant="h5">
                     Quantity:
                     <br />
-                    <Btn onClick={() => reduceQuantity(el.id)}>-</Btn>{" "}
-                    {el.quantity}<Btn onClick={() => increaseQuantity(el.id)}>+</Btn> <br />
+                    <Btn onClick={() => {reduceQuantity(el.id);
+                    setCartProducts(cartProducts - 1)}}>-</Btn>{" "}
+                    {el.quantity}<Btn onClick={() => {
+                    increaseQuantity(el.id);
+                    setCartProducts(cartProducts +1)}}>+</Btn> <br />
                     Price: {el.price}€
                   </Typography>
                 </CardContent>

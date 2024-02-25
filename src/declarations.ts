@@ -22,6 +22,8 @@ export interface TContext {
   cart: Cart;
   paid: boolean;
   products: Array<Product> | null;
+  cartProducts : number;
+  setCartProducts: (value: number) => void;
   loading: boolean;
   error: string;
   addToCart: (idProduct: Product["id"]) => void;

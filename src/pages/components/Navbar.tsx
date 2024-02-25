@@ -6,7 +6,7 @@ import {CartIcon, HomeIcon} from "@/styles/Icons";
 
 const Navbar = () => {
   const { cart } = useContext(AppContext);
-
+  const {cartProducts} = useContext(AppContext);
   const router = useRouter();
 
   const goToCart = () => {
@@ -24,7 +24,7 @@ const Navbar = () => {
         <Button onClick={goToHome}><HomeIcon props={undefined}/></Button> 
         <Button onClick={goToCart}>
           <CartIcon props={undefined} />
-          <CartQty>{cart.length}</CartQty>
+          <CartQty>{cartProducts}</CartQty>
         </Button>
       </Nav>
     </>

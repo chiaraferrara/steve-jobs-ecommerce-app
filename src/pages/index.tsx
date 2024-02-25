@@ -15,6 +15,7 @@ const inter = Inter({ subsets: ["latin"] });
 export default function Home() {
   const { products, loading, error } = useContext(AppContext);
   const { addToCart } = useContext(AppContext);
+  const { cartProducts , setCartProducts } = useContext(AppContext);
 
   useEffect(() => {
     console.log(products);
@@ -39,7 +40,10 @@ export default function Home() {
               </Typography>
             </CardContent>
             <CardActions>
-              <Button size="small" onClick={() => addToCart(product.id)}>
+              <Button size="small" onClick={() => {
+                addToCart(product.id);
+                setCartProducts(cartProducts + 1);
+              }}>
                 Add to cart
               </Button>
             </CardActions>

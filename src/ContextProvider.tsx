@@ -5,6 +5,8 @@ export const AppContext = createContext<TContext>({
   cart: [],
   paid: false,
   products: null,
+  cartProducts: 0,
+  setCartProducts: () => {},
   addToCart: () => {},
   removeFromCart: () => {},
   reduceQuantity: () => {},
@@ -27,6 +29,7 @@ export function ContextProvider({ children }: Props) {
   const [products, setProducts] = useState<TContext["products"]>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
+  const [cartProducts, setCartProducts] = useState<number>(0);
 
   const addToCart = (idProduct: Product["id"]) => {
     const found = cart.find((el) => el.id === idProduct);
@@ -145,6 +148,8 @@ export function ContextProvider({ children }: Props) {
         cart,
         paid,
         products,
+        cartProducts,
+        setCartProducts,
         addToCart,
         removeFromCart,
         reduceQuantity,

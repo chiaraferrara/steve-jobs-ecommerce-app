@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 
 export const AppContext = createContext<TContext>({
   cart: [],
+  setCart: () => {},
   paid: false,
   products: null,
   cartProducts: 0,
@@ -116,7 +117,7 @@ export function ContextProvider({ children }: Props) {
   const pay = () => {
     navigateToSuccess();
     setPaid(true);
-    setCart([]);
+    // setCart([]);
     
   };
 
@@ -167,6 +168,7 @@ export function ContextProvider({ children }: Props) {
     <AppContext.Provider
       value={{
         cart,
+        setCart,
         paid,
         products,
         cartProducts,

@@ -20,6 +20,7 @@ export interface Product {
 
 export interface TContext {
   cart: Cart;
+  setCart: (value: Cart) => void;
   paid: boolean;
   products: Array<Product> | null;
   cartProducts : number;

@@ -10,9 +10,10 @@ export default function Success() {
   const {paid} = useContext(AppContext);
   const router = useRouter();
   const {setCartProducts} = useContext(AppContext);
+  const {setCart} = useContext(AppContext);
 
   useEffect(() => { 
-    if(paid === true){ setCartProducts(0); }
+    if(paid === true){ setCart([]) ; setCartProducts(0); }
     setTimeout(() => {      
       router.push('/');
     }, 3000);

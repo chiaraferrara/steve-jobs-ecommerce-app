@@ -14,19 +14,15 @@ export default function Payment (){
     const {pay} = useContext(AppContext);
     const {setCartProducts} = useContext(AppContext);
     const router = useRouter();
-    
+    const { paid } = useContext(AppContext);
 
     const navigateToCart = () => {
         router.push('/cart');
     };
 
-    const navigateToSuccess = () => {
-        router.push('/success');
-    };
-    
     useEffect(() => {setTotalPrice(getTotalPrice())}, [cart]);
 
-    if (cart.length < 1) return( <h1>Cart is empty</h1>)
+    if (cart.length < 1) return( <Div><h1>Cart is empty</h1></Div>)
     return (<>
     <Div>
     <Wrapper>
@@ -42,9 +38,7 @@ export default function Payment (){
         <Button onClick={() => navigateToCart()}> Go back to cart to edit order</Button>
         <Chip label={`You are going to pay ${totalPrice}€`} />
         
-        <Chip label={`BUY`} onClick={() =>{pay() ;
-        setCartProducts(0);
-        navigateToSuccess()}}/>
+        <Chip label={`BUY`} onClick={() =>{pay() ;}}/>
         </Card></Wrapper></Div>
 </>
     )

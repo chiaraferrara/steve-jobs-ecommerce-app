@@ -1,5 +1,6 @@
 import { ReactNode, createContext, useEffect, useState } from "react";
 import { Cart, Product, TContext } from "./declarations";
+import { useRouter } from "next/router";
 
 export const AppContext = createContext<TContext>({
   cart: [],
@@ -104,9 +105,19 @@ export function ContextProvider({ children }: Props) {
     setCart(newCart);
   };
 
+  const router = useRouter();
+
+
+  const navigateToSuccess = () => {
+    router.push('/success');
+};
+
+
   const pay = () => {
+    navigateToSuccess();
     setPaid(true);
     setCart([]);
+    
   };
 
   const getProducts = async () => {

@@ -9,6 +9,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Container } from "@/styles/globals";
+import { useRouter } from "next/router";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,11 +18,18 @@ export default function Home() {
   const { addToCart } = useContext(AppContext);
   const { cartProducts , setCartProducts } = useContext(AppContext);
   const { getProductQuantity } = useContext(AppContext);
+  const router = useRouter();
+
   useEffect(() => {
     console.log(products);
     console.log(loading);
     console.log(error);
   }, []);
+
+  const redirectToProduct = (id: string) => {
+    router.push(`/${id}`);
+  };
+
 
   return (
     <>
@@ -52,7 +60,13 @@ export default function Home() {
                   >
                     Add to cart
                   </Button>
+
+                  
                 )}
+                
+                <Button onClick={() => {
+                  redirectToProduct(product.id.toString());
+                }}>Detail</Button>
               </CardActions>
             </Card>
           ))

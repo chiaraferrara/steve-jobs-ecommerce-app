@@ -26,6 +26,7 @@ export default function ProductPage() {
     setProduct(data);
   };
 
+  if(!product) { return <Div><h1>Loading...</h1></Div> }
 return (
     <>
     <Div>

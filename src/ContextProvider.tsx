@@ -1,6 +1,23 @@
 import { ReactNode, createContext, useEffect, useState } from "react";
 import { Cart, Product, TContext } from "./declarations";
 import { useRouter } from "next/router";
+import { configureStore, createSlice } from "@reduxjs/toolkit";
+import { useDispatch } from "react-redux";
+
+export const sliceProducts = createSlice({
+  name: "cartProducts",
+  initialState: 0,
+  reducers: {
+    setCartProducts: (state, action) => state + action.payload,
+    emptyCartProducts: (state) => 0,
+  },
+});
+
+export const store = configureStore({
+  reducer: {
+    cartProducts: sliceProducts.reducer,
+  }
+});
 
 export const AppContext = createContext<TContext>({
   cart: [],

@@ -3,14 +3,26 @@ import { Button, Div, FlexRow, Wrapper } from "@/styles/globals";
 import { useRouter } from "next/router";
 import React, { useContext, useEffect } from "react";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { sliceProducts } from "../ContextProvider";
+
 
 export default function ProductPage() {
   const router = useRouter();
   const { idProduct } = router.query;
   const [product, setProduct] = useState<any>(null);
   const { addToCart } = useContext(AppContext);
-    const {setCartProducts} = useContext(AppContext);
-    const { cartProducts } = useContext(AppContext);
+    // const {setCartProducts} = useContext(AppContext);
+    // const { cartProducts } = useContext(AppContext);
+  const dispatch = useDispatch();
+  
+
+
+ const onClickAddToCart = () => {
+     dispatch(sliceProducts.actions.setCartProducts(1));
+  };
+
+
   useEffect(() => {
     if (idProduct) {
       getProductDetails();
@@ -43,7 +55,7 @@ return (
                 </FlexRow>
                 <Button onClick={() => {
                     addToCart(product.id);
-                    setCartProducts(cartProducts + 1);
+                    onClickAddToCart();
                 }}>Add To Cart</Button>
                 </Wrapper>
         )}

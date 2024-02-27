@@ -1,8 +1,9 @@
-import { AppContext } from "@/ContextProvider";
+import { AppContext, sliceProducts } from "@/ContextProvider";
 import { Div, Wrapper } from "@/styles/globals";
 import { Title } from "@mui/icons-material";
 import { useRouter } from "next/router";
 import { useContext, useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 
 export default function Success() {
@@ -12,8 +13,13 @@ export default function Success() {
   const {setCartProducts} = useContext(AppContext);
   const {setCart} = useContext(AppContext);
 
+  const dispatch = useDispatch();
+  
+
+  
+
   useEffect(() => { 
-    if(paid === true){ setCart([]) ; setCartProducts(0); }
+    if(paid === true){ setCart([]) ; dispatch(sliceProducts.actions.emptyCartProducts()); }
     setTimeout(() => {      
       router.push('/');
     }, 3000);

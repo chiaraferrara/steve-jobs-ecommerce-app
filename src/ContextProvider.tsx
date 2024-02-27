@@ -2,14 +2,16 @@ import { ReactNode, createContext, useEffect, useState } from "react";
 import { Cart, Product, TContext } from "./declarations";
 import { useRouter } from "next/router";
 import { configureStore, createSlice } from "@reduxjs/toolkit";
-import { useDispatch } from "react-redux";
+import { API_KEY } from "./pages/api/apiKey";
 
 export const sliceProducts = createSlice({
   name: "cartProducts",
   initialState: 0,
   reducers: {
     setCartProducts: (state, action) => state + action.payload,
+    decreaseCartProducts: (state) => state - 1,
     emptyCartProducts: (state) => 0,
+
   },
 });
 
@@ -33,7 +35,7 @@ export const AppContext = createContext<TContext>({
   getTotalPrice: () => 0,
   pay: () => {},
   done: () => {},
-  getProductQuantity: () => 0,
+  // getProductQuantity: () => 0,
   loading: false,
   error: "",
 });
@@ -58,10 +60,11 @@ export function ContextProvider({ children }: Props) {
         if (el.id !== idProduct) return el;
         return {
           id: el.id,
+          name: product?.name ?? "",
           quantity: el.quantity + 1,
           description: product?.description ?? "",
-          thumbnail: product?.thumbnail ?? "",
-          price: product?.price ?? 0,
+          background_image: product?.background_image ?? "",
+          price: product?.price ?? Math.floor(Math.random() * 60) + 1,
         };
       });
       setCart(newCart);
@@ -70,10 +73,11 @@ export function ContextProvider({ children }: Props) {
         ...cart,
         {
           id: idProduct,
+          name: product?.name ?? "",
           quantity: 1,
           description: product?.description ?? "",
-          thumbnail: product?.thumbnail ?? "",
-          price: product?.price ?? 0,
+          background_image: product?.background_image ?? "",
+          price: product?.price ?? Math.floor(Math.random() * 60) + 1,
         },
       ]);
     }
@@ -90,9 +94,10 @@ export function ContextProvider({ children }: Props) {
         if (el.quantity > 1) {
           acc.push({
             id: el.id,
+            name: el.name,
             quantity: el.quantity - 1,
             description: el.description,
-            thumbnail: el.thumbnail,
+            background_image: el.background_image,
             price: el.price,
           });
           return acc;
@@ -112,9 +117,10 @@ export function ContextProvider({ children }: Props) {
       if (el.id === idProduct) {
         return {
           id: el.id,
+          name: el.name,
           quantity: el.quantity + 1,
           description: el.description,
-          thumbnail: el.thumbnail,
+          background_image: el.background_image,
           price: el.price,
         };
       }
@@ -142,11 +148,12 @@ export function ContextProvider({ children }: Props) {
     setLoading(true);
     try {
       const response = await fetch(
-        "https://mockend.up.railway.app/api/products"
+        `https://api.rawg.io/api/games?&key=${API_KEY}`
       );
       const data = await response.json();
-      setProducts(data);
+      setProducts(data.results);
       setLoading(false);
+      console.log(products)
     } catch (error: any) {
       setError(error.message);
       setLoading(false);
@@ -159,17 +166,17 @@ export function ContextProvider({ children }: Props) {
 
   
 
-  const getProductQuantity = (idProduct: Product["id"]) => {
-    const found = cart.find((el) => el.id === idProduct);
-    const product = products?.find((el) => el.id === idProduct);
-    if (found) {
-      return (product?.qty ?? 0) - found.quantity;
-    } 
-    if (!!product) {
-      return product.qty ?? 0;
-    }
-    return 0;
-  };
+  // const getProductQuantity = (idProduct: Product["id"]) => {
+  //   const found = cart.find((el) => el.id === idProduct);
+  //   const product = products?.find((el) => el.id === idProduct);
+  //   if (found) {
+  //     return (product?.qty ?? 0) - found.quantity;
+  //   } 
+  //   if (!!product) {
+  //     return product.qty ?? 0;
+  //   }
+  //   return 0;
+  // };
 
   const getTotalPrice = () => {
     return cart.reduce((acc, el) => {
@@ -194,7 +201,7 @@ export function ContextProvider({ children }: Props) {
         removeFromCart,
         reduceQuantity,
         increaseQuantity,
-        getProductQuantity,
+        // getProductQuantity,
         getTotalPrice,
         pay,
         loading,

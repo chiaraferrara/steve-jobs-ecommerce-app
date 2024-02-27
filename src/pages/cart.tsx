@@ -1,4 +1,4 @@
-import { AppContext } from "@/ContextProvider";
+import { AppContext, sliceProducts } from "@/ContextProvider";
 import {
   Btn,
   Button,
@@ -7,6 +7,8 @@ import {
   Div,
   FlexColumn,
   FlexRow,
+  Img,
+  Wrapper,
 } from "@/styles/globals";
 import { use, useContext, useEffect, useState } from "react";
 
@@ -16,6 +18,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { useRouter } from "next/router";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Cart() {
   const { products } = useContext(AppContext);
@@ -27,6 +30,15 @@ export default function Cart() {
   const { cartProducts, setCartProducts } = useContext(AppContext);
 
   const [totalPrice, setTotalPrice] = useState<number>(0);
+
+  const dispatch = useDispatch();
+
+  const onClickMinus = () => {
+    dispatch(sliceProducts.actions.decreaseCartProducts());
+  };
+  const onClickPlus = () => {
+    dispatch(sliceProducts.actions.setCartProducts(1));
+  };
 
 
   const router = useRouter();
@@ -45,6 +57,8 @@ export default function Cart() {
   return (
     <>
     <Div>
+    <Wrapper><h1>Shopping Cart:</h1></Wrapper>
+         <hr />
       <Container>
         <FlexColumn>
           {" "}
@@ -63,16 +77,17 @@ export default function Cart() {
                     Quantity:
                     <br />
                     <Btn onClick={() => {reduceQuantity(el.id);
-                    setCartProducts(cartProducts - 1)}}>-</Btn>{" "}
+                    onClickMinus()}}>-</Btn>{" "}
                     {el.quantity}<Btn onClick={() => {
                     increaseQuantity(el.id);
-                    setCartProducts(cartProducts +1)}}>+</Btn> <br />
+                    onClickPlus()}}>+</Btn> <br />
                     Price: {el.price}€
                   </Typography>
                 </CardContent>
               </Box>
               <CardMedia>
-                <img src={el.thumbnail} />
+                <h5>{el.name}</h5>
+                <Img src={el.background_image} />
               </CardMedia>
             </Card>
           ))}

@@ -32,7 +32,7 @@ export default function Payment (){
 
         <p>Order list:</p>
         <ul>
-            {cart.map(el => <li key={el.id}>{el.quantity}x {el.description}<Divider /></li>)}
+            {cart.map(el => <li key={el.id}>{el.quantity}x {el.name}<Divider /></li>)}
         </ul>
 
         <Button onClick={() => navigateToCart()}> Go back to cart to edit order</Button>

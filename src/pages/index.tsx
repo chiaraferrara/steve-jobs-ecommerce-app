@@ -8,7 +8,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { Container } from "@/styles/globals";
+import { Container, Wrapper } from "@/styles/globals";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 
@@ -18,7 +18,7 @@ export default function Home() {
   const { products, loading, error } = useContext(AppContext);
   const { addToCart } = useContext(AppContext);
   const { cartProducts, setCartProducts } = useContext(AppContext);
-  const { getProductQuantity } = useContext(AppContext);
+  // const { getProductQuantity } = useContext(AppContext);
   const router = useRouter();
 
   useEffect(() => {
@@ -39,24 +39,31 @@ export default function Home() {
 
   return (
     <>
+   <Wrapper><h1>Products:</h1></Wrapper>
+         <hr />
       <Container>
+         
         {products && products.length > 0 ? (
           products.map((product) => (
             <Card key={product.id} sx={{ width: 245, m: 0.5 }}>
-              <CardMedia sx={{ height: 140 }} image={product.thumbnail} />
+              <CardMedia sx={{ height: 140 }} image={product.background_image
+} />
               <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
-                  {product.title}
+                  {product.name}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  {product.price}€
+                
+                  <br/>
+                  <br/>
+                  Released: {product.released}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  Available: {getProductQuantity(product.id)}
+                  Rating: {product.rating}
                 </Typography>
               </CardContent>
               <CardActions>
-                {getProductQuantity(product.id) >= 1 && (
+               
                   <Button
                     size="small"
                     onClick={() => {
@@ -66,7 +73,6 @@ export default function Home() {
                   >
                     Add to cart
                   </Button>
-                )}
 
                 <Button
                   onClick={() => {
